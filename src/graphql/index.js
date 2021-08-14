@@ -8,12 +8,12 @@ import { env, } from '../shared';
 ** use [event, context] for Lambda and [req] for Express */
 export const graphQlContext = ({ event, context, req, }) => {
 	const headers = event?.headers || req?.headers || {};
+	const authorization = headers['Authorization'] || headers['authorization'];
+	const userId = authorization?.substring?.(7);
 
 	return {
 		user: {
-			id: env.jwtSecret,
-			firstName: 'Cloud',
-			lastName: 'Le',
+			id: userId,
 		}
 	};
 };
